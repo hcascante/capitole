@@ -1,9 +1,12 @@
 package com.capitole.domain.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "BRANDS")
+@Data
 public class Brand {
 
     @Id

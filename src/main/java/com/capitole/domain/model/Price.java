@@ -1,11 +1,14 @@
 package com.capitole.domain.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "PRICES")
+@Data
 public class Price {
 
     @Id
