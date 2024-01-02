@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Api(tags = "PriceEntity Controller")
@@ -27,13 +27,12 @@ public class PriceController {
     }
 
     @GetMapping("/prices")
-    public ResponseEntity<List<PriceResponseDTO>> findApplicablePrices(
+    public ResponseEntity<PriceResponseDTO> findApplicablePrices(
             @RequestParam Long brandId,
             @RequestParam Long productId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
-
-        List<PriceResponseDTO> applicablePrices = priceService.findApplicablePrices(new PriceRequestDTO(date, productId, brandId));
-        return ResponseEntity.ok(applicablePrices);
+        Optional<PriceResponseDTO> applicablePrice = priceService.findApplicablePrice(new PriceRequestDTO(date, productId, brandId));
+        return applicablePrice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

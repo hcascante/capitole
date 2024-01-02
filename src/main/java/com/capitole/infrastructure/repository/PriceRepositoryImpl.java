@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PriceRepositoryImpl implements PriceRepositoryCustom {
@@ -15,9 +15,7 @@ public class PriceRepositoryImpl implements PriceRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
-
-    public List<Price> findApplicablePrices(Long brandId, Long productId, LocalDateTime date) {
-
+    public Optional<Price> findApplicablePrices(Long brandId, Long productId, LocalDateTime date) {
         return entityManager.createQuery(
                         "SELECT p FROM PRICES p WHERE p.brandId = :brandId " +
                                 "AND p.productId = :productId " +
@@ -27,6 +25,6 @@ public class PriceRepositoryImpl implements PriceRepositoryCustom {
                 .setParameter("brandId", brandId)
                 .setParameter("productId", productId)
                 .setParameter("date", date)
-                .getResultList();
+                .getResultList().stream().findFirst();
     }
 }
