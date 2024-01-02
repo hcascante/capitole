@@ -12,17 +12,26 @@ CREATE TABLE IF NOT EXISTS PRICES (
                         PRICE DECIMAL(10, 2),
                         CURR VARCHAR(3)
 );
+
+-- Crear un índice para mejorar el rendimiento de las consultas
+CREATE INDEX idx_prices_brand_product_dates
+    ON PRICES (BRAND_ID, PRODUCT_ID, START_DATE, END_DATE);
+
 -- Crear la tabla de marcas
 CREATE TABLE IF NOT EXISTS BRANDS (
                         ID BIGINT AUTO_INCREMENT PRIMARY KEY,
                         BRAND_NAME VARCHAR
 );
 
--- Crear un índice para mejorar el rendimiento de las consultas
-CREATE INDEX idx_prices_brand_product_dates
-    ON PRICES (BRAND_ID, PRODUCT_ID, START_DATE, END_DATE);
+-- Crear la tabla de productos
+CREATE TABLE IF NOT EXISTS PRODUCTS (
+                                      ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                      PRODUCT_NAME VARCHAR
+);
+
 
 INSERT INTO BRANDS (BRAND_NAME) VALUES ('ZARA'), ('H&M');
+INSERT INTO PRODUCTS (PRODUCT_NAME) VALUES ('REMERA'), ('BUZO');
 
 -- Insertar datos de ejemplo
 INSERT INTO PRICES (BRAND_ID, START_DATE, END_DATE, PRICE_LIST, PRODUCT_ID, PRIORITY, PRICE, CURR)

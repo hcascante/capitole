@@ -25,8 +25,9 @@ public class Price {
     @Column(name = "PRICE_LIST")
     private Long priceList;
 
-    @Column(name = "PRODUCT_ID")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
+    private Product product;
 
     @Column(name = "PRIORITY")
     private Long priority;
