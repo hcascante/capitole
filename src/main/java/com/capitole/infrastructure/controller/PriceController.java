@@ -2,6 +2,7 @@ package com.capitole.infrastructure.controller;
 
 import com.capitole.application.service.PriceService;
 import com.capitole.domain.model.Price;
+import com.capitole.infrastructure.controller.dto.PriceRequestDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +31,8 @@ public class PriceController {
             @RequestParam Long productId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
 
-        List<Price> applicablePrices = priceService.findApplicablePrices(brandId, productId, date);
+
+        List<Price> applicablePrices = priceService.findApplicablePrices(new PriceRequestDTO(date, productId, brandId));
         return ResponseEntity.ok(applicablePrices);
     }
 

@@ -17,10 +17,7 @@ public class PriceRepositoryImpl implements PriceRepositoryCustom {
 
 
     public List<Price> findApplicablePrices(Long brandId, Long productId, LocalDateTime date) {
-        // Implementa la lógica específica de la consulta aquí
-        // Puedes utilizar el EntityManager o métodos de Spring Data JPA según tus necesidades
 
-        // Ejemplo básico:
         return entityManager.createQuery(
                         "SELECT p FROM PRICES p WHERE p.brandId = :brandId " +
                                 "AND p.productId = :productId " +
@@ -32,6 +29,4 @@ public class PriceRepositoryImpl implements PriceRepositoryCustom {
                 .setParameter("date", date)
                 .getResultList();
     }
-
-    // Puedes agregar más métodos de persistencia según tus necesidades
 }
