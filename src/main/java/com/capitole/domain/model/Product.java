@@ -16,4 +16,12 @@ public class Product {
 
     @Column(name = "PRODUCT_NAME")
     private String productName;
+
+    public Product() {
+    }
+
+    public Product(Long id, String productName) {
+        this.id = id;
+        this.productName = productName;
+    }
 }

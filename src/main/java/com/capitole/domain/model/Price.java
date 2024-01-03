@@ -42,4 +42,19 @@ public class Price {
     private String currency;
 
 
+    public Price() {
+
+    }
+
+    public Price(Long id, Brand brand, LocalDateTime startDate, LocalDateTime endDate, Long priceList, Product product, Long priority, BigDecimal price, String currency) {
+        this.id = id;
+        this.brand = brand;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.priceList = priceList;
+        this.product = product;
+        this.priority = priority;
+        this.price = price;
+        this.currency = currency;
+    }
 }
