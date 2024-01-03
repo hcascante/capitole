@@ -23,4 +23,5 @@ public class PriceResponseDTO {
         this.dateTo = dateTo;
         this.price = price;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.capitole;
+package com.capitole.domain;
 
 import com.capitole.domain.model.Brand;
 import com.capitole.domain.model.Price;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = PriceTestConfig.class)
+@SpringBootTest
+@Transactional
 public class PriceRepositoryIntegrationTest {
     @Autowired
     private PriceRepository priceRepository;
@@ -50,7 +52,7 @@ public class PriceRepositoryIntegrationTest {
     @Test
     public void testFindApplicablePrices_NoResult() {
         // Ejecutar la consulta (sin guardar ningún precio)
-        Optional<Price> result = priceRepository.findApplicablePrices(1L, 35454L, LocalDateTime.now());
+        Optional<Price> result = priceRepository.findApplicablePrices(1L, 35455L, LocalDateTime.now());
 
         // Verificar que no hay resultado
         assertTrue(result.isEmpty());
