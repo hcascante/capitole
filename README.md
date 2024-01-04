@@ -114,10 +114,18 @@ Calidad de Código.
 Resultados correctos en los test.
 
 
-# Iniciar la aplicación:
+# Iniciar la aplicación
 
 `mvn clean install`
 
 # Ejecutar tests
 
 `mvn test`
+
+# Swagger
+
+`http://localhost:8080/swagger-ui/index.html`
+
+# Consola de H2
+
+`http://localhost:8080/h2-console`
