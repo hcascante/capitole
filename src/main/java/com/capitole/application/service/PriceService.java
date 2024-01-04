@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Service
 public interface PriceService {
-    Optional<PriceResponseDTO> findApplicablePrice(PriceRequestDTO priceRequestDTO);
+    PriceResponseDTO findApplicablePrice(PriceRequestDTO priceRequestDTO);
 }

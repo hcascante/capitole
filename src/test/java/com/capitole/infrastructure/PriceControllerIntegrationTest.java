@@ -19,6 +19,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @AutoConfigureMockMvc
 public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
 
@@ -56,12 +60,12 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
     public void testFindApplicablePrice1() throws Exception {
 
         // Test 1
-        mockMvc.perform(MockMvcRequestBuilders.get("/prices")
+        mockMvc.perform(get("/prices")
                         .param("brandId", "1")
                         .param("productId", "35455")
                         .param("date", "2020-06-14T10:00:00")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(35455))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value(1));
 
@@ -70,12 +74,12 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
     public void testFindApplicablePrice2() throws Exception {
 
         // Test 2
-        mockMvc.perform(MockMvcRequestBuilders.get("/prices")
+        mockMvc.perform(get("/prices")
                         .param("brandId", "1")
                         .param("productId", "35455")
                         .param("date", "2020-06-14T16:00:00")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(35455))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value(1));
 
@@ -84,12 +88,12 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrice3() throws Exception {
         // Test 3
-        mockMvc.perform(MockMvcRequestBuilders.get("/prices")
+        mockMvc.perform(get("/prices")
                         .param("brandId", "1")
                         .param("productId", "35455")
                         .param("date", "2020-06-14T21:00:00")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(35455))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value(1));
     }
@@ -97,12 +101,12 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrice4() throws Exception {
         // Test 4
-        mockMvc.perform(MockMvcRequestBuilders.get("/prices")
+        mockMvc.perform(get("/prices")
                         .param("brandId", "1")
                         .param("productId", "35455")
                         .param("date", "2020-06-15T10:00:00")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(35455))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value(1));
     }
@@ -110,13 +114,31 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrice5() throws Exception {
         // Test 5
-        mockMvc.perform(MockMvcRequestBuilders.get("/prices")
+        mockMvc.perform(get("/prices")
                         .param("brandId", "1")
                         .param("productId", "35455")
                         .param("date", "2020-06-16T21:00:00")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(35455))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.brandId").value(1));
     }
+
+    @Test
+    public void testHandleRuntimeException() throws Exception {
+        mockMvc.perform(get("/prices"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void testHandlePriceNotFoundException() throws Exception {
+        mockMvc.perform(get("/prices")
+                .param("brandId", "4")
+                .param("productId", "2")
+                .param("date", "2020-06-16T21:00:00")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Error: No se encontró un precio aplicable"));
+    }
+
+
 }

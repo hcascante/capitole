@@ -3,6 +3,9 @@ package com.capitole.application.service;
 import com.capitole.domain.puerto.repository.PriceRepository;
 import com.capitole.domain.dto.PriceRequestDTO;
 import com.capitole.domain.dto.PriceResponseDTO;
+import com.capitole.infrastructure.entity.PriceEntity;
+import com.capitole.infrastructure.exceptions.PriceNotFoundException;
+import com.capitole.infrastructure.mapper.PriceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +15,22 @@ import java.util.Optional;
 public class PriceServiceImpl implements PriceService {
 
     private final PriceRepository priceRepository;
+    private final PriceMapper priceMapper;
 
     @Autowired
-    public PriceServiceImpl(PriceRepository priceRepository) {
+    public PriceServiceImpl(PriceRepository priceRepository, PriceMapper priceMapper) {
         this.priceRepository = priceRepository;
+        this.priceMapper = priceMapper;
     }
 
     @Override
-    public Optional<PriceResponseDTO> findApplicablePrice(PriceRequestDTO priceRequestDTO) {
-        return priceRepository.findApplicablePrices(priceRequestDTO.getBrandId(), priceRequestDTO.getProductId(), priceRequestDTO.getDate())
-                .map(price -> new PriceResponseDTO(price.getProduct().getId(), price.getBrand().getId(),
-                        price.getPriceList(), price.getStartDate(), price.getEndDate(), price.getPrice()));
+    public PriceResponseDTO findApplicablePrice(PriceRequestDTO priceRequestDTO) {
+        Optional<PriceEntity> applicablePrices = priceRepository.findApplicablePrices(priceRequestDTO.getBrandId(), priceRequestDTO.getProductId(), priceRequestDTO.getDate());
+        if (applicablePrices.isPresent()) {
+            return priceMapper.toPriceResponseDTO(applicablePrices.get());
+        } else {
+            throw new PriceNotFoundException("No se encontró un precio aplicable");
+        }
     }
 
 }

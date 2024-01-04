@@ -30,8 +30,7 @@ public class PriceController {
             @RequestParam Long brandId,
             @RequestParam Long productId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
-        Optional<PriceResponseDTO> applicablePrice = priceService.findApplicablePrice(new PriceRequestDTO(date, productId, brandId));
-        return applicablePrice.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(priceService.findApplicablePrice(new PriceRequestDTO(date, productId, brandId)));
     }
 
 }

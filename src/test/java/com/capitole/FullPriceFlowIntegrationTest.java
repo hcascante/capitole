@@ -54,9 +54,9 @@ public class FullPriceFlowIntegrationTest extends AbstractIntegrationTest {
                 35455L,
                 1L
         );
-        Optional<PriceResponseDTO> result = priceService.findApplicablePrice(requestDTO);
+        PriceResponseDTO result = priceService.findApplicablePrice(requestDTO);
 
         // Verificar el resultado
-        assertEquals(Optional.of(new PriceResponseDTO(35455L, 1L, 1L, date.minusDays(1L), date.plusDays(1L), BigDecimal.valueOf(35L))), result);
+        assertEquals(new PriceResponseDTO(35455L, 1L, 1L, date.minusDays(1L), date.plusDays(1L), BigDecimal.valueOf(35L)), result);
     }
 }
