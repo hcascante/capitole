@@ -1,5 +1,6 @@
-package com.capitole;
+package com.capitole.application;
 
+import com.capitole.AbstractIntegrationTest;
 import com.capitole.application.service.PriceServiceImpl;
 import com.capitole.infrastructure.entity.BrandEntity;
 import com.capitole.infrastructure.entity.PriceEntity;
@@ -18,7 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FullPriceFlowIntegrationTest extends AbstractIntegrationTest {
+public class PriceServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private PriceRepository priceRepository;
 
