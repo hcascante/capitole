@@ -15,7 +15,7 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BRAND_ID", referencedColumnName = "ID")
     private Brand brand;
 
@@ -28,7 +28,7 @@ public class Price {
     @Column(name = "PRICE_LIST")
     private Long priceList;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
     private Product product;
 

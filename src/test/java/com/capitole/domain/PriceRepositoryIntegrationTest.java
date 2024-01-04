@@ -1,15 +1,15 @@
 package com.capitole.domain;
 
+import com.capitole.AbstractIntegrationTest;
 import com.capitole.domain.model.Brand;
 import com.capitole.domain.model.Price;
 import com.capitole.domain.model.Product;
 import com.capitole.domain.repository.PriceRepository;
-import com.capitole.infrastructure.conf.PriceTestConfig;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,12 +18,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-@Transactional
-public class PriceRepositoryIntegrationTest {
+public class PriceRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private PriceRepository priceRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    public void afterEach() {
+        priceRepository.deleteAll();
+        jdbcTemplate.execute("ALTER TABLE PRICES ALTER COLUMN ID RESTART WITH 1");
+        jdbcTemplate.execute("ALTER TABLE BRANDS ALTER COLUMN ID RESTART WITH 1");
+    }
 
     @Test
     public void testFindApplicablePrices() {
