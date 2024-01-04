@@ -1,12 +1,10 @@
 package com.capitole.infrastructure;
 
 import com.capitole.AbstractIntegrationTest;
-import com.capitole.domain.model.Brand;
-import com.capitole.domain.model.Price;
-import com.capitole.domain.model.Product;
-import com.capitole.domain.repository.BrandRepository;
-import com.capitole.domain.repository.PriceRepository;
-import com.capitole.domain.repository.ProductRepository;
+import com.capitole.infrastructure.entity.BrandEntity;
+import com.capitole.infrastructure.entity.PriceEntity;
+import com.capitole.infrastructure.entity.ProductEntity;
+import com.capitole.domain.puerto.repository.PriceRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,27 +30,27 @@ public class PriceControllerIntegrationTest extends AbstractIntegrationTest {
 
     @BeforeAll
     public void setUp() {
-        Brand brand = new Brand(1L, "ZARA");
-        Product product = new Product(35455L, "Remera");
+        BrandEntity brand = new BrandEntity(1L, "ZARA");
+        ProductEntity product = new ProductEntity(35455L, "Remera");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        Price price1 = createPrice(1L, LocalDateTime.parse("2020-06-14 00:00:00", formatter),
+        PriceEntity price1 = createPrice(1L, LocalDateTime.parse("2020-06-14 00:00:00", formatter),
                 LocalDateTime.parse("2020-12-31 23:59:59", formatter), 1L, 0L, BigDecimal.valueOf(35.50), brand, product);
-        Price price2 = createPrice(2L, LocalDateTime.parse("2020-06-14 15:00:00", formatter),
+        PriceEntity price2 = createPrice(2L, LocalDateTime.parse("2020-06-14 15:00:00", formatter),
                 LocalDateTime.parse("2020-06-14 18:30:00", formatter), 2L, 1L, BigDecimal.valueOf(25.45), brand, product);
-        Price price3 = createPrice(3L, LocalDateTime.parse("2020-06-15 00:00:00", formatter),
+        PriceEntity price3 = createPrice(3L, LocalDateTime.parse("2020-06-15 00:00:00", formatter),
                 LocalDateTime.parse("2020-06-15 11:00:00", formatter), 3L, 1L, BigDecimal.valueOf(30.50),brand, product);
-        Price price4 = createPrice(4L, LocalDateTime.parse("2020-06-15 16:00:00", formatter),
+        PriceEntity price4 = createPrice(4L, LocalDateTime.parse("2020-06-15 16:00:00", formatter),
                 LocalDateTime.parse("2020-12-31 23:59:59", formatter), 4L, 1L, BigDecimal.valueOf(38.95), brand, product);
         priceRepository.saveAll(List.of(price1, price2, price3, price4));
     }
 
 
 
-    private Price createPrice(Long id, LocalDateTime startDate, LocalDateTime endDate, Long priceList, Long priority,
-                              BigDecimal price, Brand brand, Product product) {
+    private PriceEntity createPrice(Long id, LocalDateTime startDate, LocalDateTime endDate, Long priceList, Long priority,
+                                    BigDecimal price, BrandEntity brand, ProductEntity product) {
 
-        return new Price(id, brand, startDate, endDate, priceList, product, priority, price, "EUR");
+        return new PriceEntity(id, brand, startDate, endDate, priceList, product, priority, price, "EUR");
     }
     @Test
     public void testFindApplicablePrice1() throws Exception {

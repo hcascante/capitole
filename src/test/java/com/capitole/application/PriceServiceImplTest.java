@@ -1,12 +1,12 @@
 package com.capitole.application;
 
 import com.capitole.application.service.PriceServiceImpl;
-import com.capitole.domain.model.Brand;
-import com.capitole.domain.model.Product;
-import com.capitole.domain.repository.PriceRepository;
-import com.capitole.domain.model.Price;
-import com.capitole.infrastructure.controller.dto.PriceRequestDTO;
-import com.capitole.infrastructure.controller.dto.PriceResponseDTO;
+import com.capitole.infrastructure.entity.BrandEntity;
+import com.capitole.infrastructure.entity.ProductEntity;
+import com.capitole.domain.puerto.repository.PriceRepository;
+import com.capitole.infrastructure.entity.PriceEntity;
+import com.capitole.domain.dto.PriceRequestDTO;
+import com.capitole.domain.dto.PriceResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -44,7 +44,7 @@ public class PriceServiceImplTest {
 
         LocalDateTime date = LocalDateTime.now();
 
-        Price mockPrice = new Price(1L, new Brand(1L, "ZARA"), date.minusDays(1L), date.plusDays(1L), 1L, new Product(1L, "Remera"), 1L, BigDecimal.valueOf(35L), "EUR");
+        PriceEntity mockPrice = new PriceEntity(1L, new BrandEntity(1L, "ZARA"), date.minusDays(1L), date.plusDays(1L), 1L, new ProductEntity(1L, "Remera"), 1L, BigDecimal.valueOf(35L), "EUR");
 
         // Configurando el comportamiento del repositorio mock
         when(priceRepository.findApplicablePrices(any(), any(), any())).thenReturn(Optional.of(mockPrice));

@@ -1,4 +1,4 @@
-package com.capitole.domain.model;
+package com.capitole.infrastructure.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PRODUCTS")
 @Data
-public class Product {
+public class ProductEntity {
 
     @Id
     @Column(name = "ID")
@@ -16,10 +16,10 @@ public class Product {
     @Column(name = "PRODUCT_NAME")
     private String productName;
 
-    public Product() {
+    public ProductEntity() {
     }
 
-    public Product(Long id, String productName) {
+    public ProductEntity(Long id, String productName) {
         this.id = id;
         this.productName = productName;
     }

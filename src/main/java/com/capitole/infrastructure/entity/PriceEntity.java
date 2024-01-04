@@ -1,4 +1,4 @@
-package com.capitole.domain.model;
+package com.capitole.infrastructure.entity;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "PRICES")
 @Data
-public class Price {
+public class PriceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Price {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "BRAND_ID", referencedColumnName = "ID")
-    private Brand brand;
+    private BrandEntity brand;
 
     @Column(name = "START_DATE")
     private LocalDateTime startDate;
@@ -30,7 +30,7 @@ public class Price {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
-    private Product product;
+    private ProductEntity product;
 
     @Column(name = "PRIORITY")
     private Long priority;
@@ -42,11 +42,11 @@ public class Price {
     private String currency;
 
 
-    public Price() {
+    public PriceEntity() {
 
     }
 
-    public Price(Long id, Brand brand, LocalDateTime startDate, LocalDateTime endDate, Long priceList, Product product, Long priority, BigDecimal price, String currency) {
+    public PriceEntity(Long id, BrandEntity brand, LocalDateTime startDate, LocalDateTime endDate, Long priceList, ProductEntity product, Long priority, BigDecimal price, String currency) {
         this.id = id;
         this.brand = brand;
         this.startDate = startDate;

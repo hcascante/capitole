@@ -1,26 +1,24 @@
 package com.capitole;
 
 import com.capitole.application.service.PriceServiceImpl;
-import com.capitole.domain.model.Brand;
-import com.capitole.domain.model.Price;
-import com.capitole.domain.model.Product;
-import com.capitole.domain.repository.PriceRepository;
-import com.capitole.infrastructure.controller.dto.PriceRequestDTO;
-import com.capitole.infrastructure.controller.dto.PriceResponseDTO;
+import com.capitole.infrastructure.entity.BrandEntity;
+import com.capitole.infrastructure.entity.PriceEntity;
+import com.capitole.infrastructure.entity.ProductEntity;
+import com.capitole.domain.puerto.repository.PriceRepository;
+import com.capitole.domain.dto.PriceRequestDTO;
+import com.capitole.domain.dto.PriceResponseDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FullPriceFlowIntegrationTest {
+public class FullPriceFlowIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private PriceRepository priceRepository;
 
@@ -40,14 +38,14 @@ public class FullPriceFlowIntegrationTest {
     @Test
     public void testFindApplicablePriceIntegration() {
         // Crear datos de prueba
-        Brand brand = new Brand();
+        BrandEntity brand = new BrandEntity();
         brand.setId(1L);
 
-        Product product = new Product();
+        ProductEntity product = new ProductEntity();
         product.setId(35455L);
 
         LocalDateTime date = LocalDateTime.now();
-        Price testPrice = new Price(1L, brand, date.minusDays(1L), date.plusDays(1L), 1L, product, 1L, BigDecimal.valueOf(35L), "EUR");
+        PriceEntity testPrice = new PriceEntity(1L, brand, date.minusDays(1L), date.plusDays(1L), 1L, product, 1L, BigDecimal.valueOf(35L), "EUR");
         this.priceRepository.saveAndFlush(testPrice);
 
         // Ejecutar el método bajo prueba

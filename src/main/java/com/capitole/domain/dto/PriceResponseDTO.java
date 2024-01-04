@@ -1,4 +1,4 @@
-package com.capitole.infrastructure.controller.dto;
+package com.capitole.domain.dto;
 
 import lombok.Data;
 

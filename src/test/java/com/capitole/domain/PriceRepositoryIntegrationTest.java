@@ -1,10 +1,10 @@
 package com.capitole.domain;
 
 import com.capitole.AbstractIntegrationTest;
-import com.capitole.domain.model.Brand;
-import com.capitole.domain.model.Price;
-import com.capitole.domain.model.Product;
-import com.capitole.domain.repository.PriceRepository;
+import com.capitole.infrastructure.entity.BrandEntity;
+import com.capitole.infrastructure.entity.PriceEntity;
+import com.capitole.infrastructure.entity.ProductEntity;
+import com.capitole.domain.puerto.repository.PriceRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +35,21 @@ public class PriceRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrices() {
         // Crear datos de prueba
-        Brand brand = new Brand();
+        BrandEntity brand = new BrandEntity();
         brand.setId(1L);
 
-        Product product = new Product();
+        ProductEntity product = new ProductEntity();
         product.setId(35455L);
 
         LocalDateTime date = LocalDateTime.now(); // Puedes ajustar la fecha según tus necesidades
 
         // Guardar un precio en la base de datos
-        Price price = new Price(1L, brand, date.minusDays(1L), date.plusDays(1L),
+        PriceEntity price = new PriceEntity(1L, brand, date.minusDays(1L), date.plusDays(1L),
                 1L, product, 1L, BigDecimal.valueOf(35L), "EUR");
         priceRepository.saveAndFlush(price);
 
         // Ejecutar la consulta
-        Optional<Price> result = priceRepository.findApplicablePrices(brand.getId(), product.getId(), date);
+        Optional<PriceEntity> result = priceRepository.findApplicablePrices(brand.getId(), product.getId(), date);
 
         // Verificar el resultado
         assertTrue(result.isPresent());
@@ -59,7 +59,7 @@ public class PriceRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrices_NoResult() {
         // Ejecutar la consulta (sin guardar ningún precio)
-        Optional<Price> result = priceRepository.findApplicablePrices(1L, 35455L, LocalDateTime.now());
+        Optional<PriceEntity> result = priceRepository.findApplicablePrices(1L, 35455L, LocalDateTime.now());
 
         // Verificar que no hay resultado
         assertTrue(result.isEmpty());
@@ -68,23 +68,23 @@ public class PriceRepositoryIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testFindApplicablePrices_MultipleResults() {
         // Crear datos de prueba
-        Brand brand = new Brand();
+        BrandEntity brand = new BrandEntity();
         brand.setId(1L);
 
-        Product product = new Product();
+        ProductEntity product = new ProductEntity();
         product.setId(35455L);
 
         LocalDateTime date = LocalDateTime.now();
 
         // Guardar múltiples precios en la base de datos con fechas que coincidan
-        Price price1 = new Price(1L, brand, date.minusDays(1L), LocalDateTime.now().plusDays(1L),
+        PriceEntity price1 = new PriceEntity(1L, brand, date.minusDays(1L), LocalDateTime.now().plusDays(1L),
                 1L, product, 1L, BigDecimal.valueOf(35L), "EUR");
-        Price price2 = new Price(2L, brand, date.minusDays(1L), LocalDateTime.now().plusDays(1L),
+        PriceEntity price2 = new PriceEntity(2L, brand, date.minusDays(1L), LocalDateTime.now().plusDays(1L),
                 1L, product, 2L, BigDecimal.valueOf(40L), "EUR");
         priceRepository.saveAll(List.of(price1, price2));
 
         // Ejecutar la consulta
-        Optional<Price> result = priceRepository.findApplicablePrices(brand.getId(), product.getId(), date);
+        Optional<PriceEntity> result = priceRepository.findApplicablePrices(brand.getId(), product.getId(), date);
 
         // Verificar que se elige el precio con mayor prioridad
         assertTrue(result.isPresent());

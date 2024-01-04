@@ -1,9 +1,8 @@
 package com.capitole.infrastructure.controller;
 
 import com.capitole.application.service.PriceService;
-import com.capitole.domain.model.Price;
-import com.capitole.infrastructure.controller.dto.PriceRequestDTO;
-import com.capitole.infrastructure.controller.dto.PriceResponseDTO;
+import com.capitole.domain.dto.PriceRequestDTO;
+import com.capitole.domain.dto.PriceResponseDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

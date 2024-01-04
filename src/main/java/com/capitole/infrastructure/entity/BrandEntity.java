@@ -1,4 +1,4 @@
-package com.capitole.domain.model;
+package com.capitole.infrastructure.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "BRANDS")
 @Data
-public class Brand {
+public class BrandEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,11 +17,11 @@ public class Brand {
     @Column(name = "BRAND_NAME")
     private String brandName;
 
-    public Brand() {
+    public BrandEntity() {
 
     }
 
-    public Brand(Long id, String brandName) {
+    public BrandEntity(Long id, String brandName) {
         this.id = id;
         this.brandName = brandName;
     }

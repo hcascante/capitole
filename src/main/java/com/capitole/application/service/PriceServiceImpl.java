@@ -1,16 +1,12 @@
 package com.capitole.application.service;
 
-import com.capitole.domain.repository.PriceRepository;
-import com.capitole.domain.model.Price;
-import com.capitole.infrastructure.controller.dto.PriceRequestDTO;
-import com.capitole.infrastructure.controller.dto.PriceResponseDTO;
+import com.capitole.domain.puerto.repository.PriceRepository;
+import com.capitole.domain.dto.PriceRequestDTO;
+import com.capitole.domain.dto.PriceResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PriceServiceImpl implements PriceService {
